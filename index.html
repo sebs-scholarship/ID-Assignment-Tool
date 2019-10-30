@@ -1,0 +1,83 @@
+<html>
+<head>
+	<title>SSF ID Assignment Tool</title>
+	<style>
+	body {
+		font-family: "Montserrat", Arial, sans-serif;
+		text-align: center;
+	}
+	button {
+		display: block;
+		margin: 1rem auto;
+		background-color: #800000;
+		color: white;
+		border: none;
+		font-size: 1.2em;
+		padding: 15px 32px;
+	}
+	div {
+		display: inline-block;
+		text-align:center;
+		width: 400px
+	}
+	textarea {
+		border: 1px solid #5D6369;
+		border-radius: 5px;
+	}
+	p {
+		color: #5D6369;
+	}
+	</style>
+</head>
+<body>
+		<div>
+			<h1>SSF ID Assignment Tool</h1>
+			<h2>Tool</h2>
+			<p>Please enter each applicant's name on a separate line.</p>
+			<textarea id=names rows=25 cols=50></textarea>
+			<button onClick="submit()">Generate</button>
+			<h2>Results</h2>
+			<p id=result>Results will appear here...</p>
+			<h2>About</h2>
+			<p>The SSF ID Assignment Tool was created to assist the SEBS Scholarship Foundation in assigning unique identifiers to scholarship applicants. We do this to ensure that applicants are given a fair and unbiased chance at receiving a scholarship.</p>
+			<h2>How It Works</h2>
+			<p>
+			This tool was created with security in mind as we respect the privacy of our 
+			applicants. Because of this, we knew that our ID tool had to be unbiased, and 
+			generated independently of any personally identifying information. The algorithm 
+			chooses random names from the list of names provided. Based on the order that names 
+			were selected, we assign ID's that are uniformly distributed and unique for inputs 
+			with less than 15 million names. Because the names are randomly chosen, this 
+			process is not replicable, and therefore cannot be used to determine which IDs 
+			were assigned, or to whom.
+			</p>
+		</div>
+	<script>
+	function getIDMap(names) {
+		let idMap = {};
+		let entries = names.length;
+		let offset = Math.floor(Math.random() * (1 / entries * parseInt("100000", 16)));
+	
+		for (let i = 0; i < entries; i++) {
+			let pos = Math.floor(Math.random() * names.length);
+			let name = names[pos];
+			names.splice(pos, 1);
+			let id = (offset + Math.floor(i / entries * parseInt("EFFFFF", 16))).toString(16).toUpperCase()
+			idMap[name] = ("000000" + id).slice(-6);
+		}
+	
+		return Object.entries(idMap);
+	}
+
+	function submit() {
+		let names = document.getElementById("names").value.split("\n");
+		let idMap = getIDMap(names);
+		let text = "";
+		for (let i = 0; i < idMap.length; i++) {
+			text = text.concat(idMap[i][0], ": ", idMap[i][1], "<br>");
+		}
+		document.getElementById("result").innerHTML = text;
+	}
+	</script>
+</body>
+</html>
