@@ -27,6 +27,11 @@
 	p {
 		color: #5D6369;
 	}
+	input {
+		display: inline-block;
+		vertical-align: middle;
+		margin: 1rem auto;
+	}
 	</style>
 </head>
 <body>
@@ -34,7 +39,8 @@
 			<h1>SSF ID Assignment Tool</h1>
 			<h2>Tool</h2>
 			<p>Please enter each applicant's name on a separate line.</p>
-			<textarea id=names rows=25 cols=50></textarea>
+			<textarea id=names rows=25 cols=50></textarea><br>
+			<input type=checkbox id=sheets>Optimize for Google Sheets
 			<button onClick="submit()">Generate</button>
 			<h2>Results</h2>
 			<p id=result>Results will appear here...</p>
@@ -56,13 +62,13 @@
 	function getIDMap(names) {
 		let idMap = {};
 		let entries = names.length;
-		let offset = Math.floor(Math.random() * (1 / entries * parseInt("100000", 16)));
+		let offset = Math.floor(Math.random() * (1 / entries * parseInt("FFFFFF", 16)));
 	
 		for (let i = 0; i < entries; i++) {
 			let pos = Math.floor(Math.random() * names.length);
 			let name = names[pos];
 			names.splice(pos, 1);
-			let id = (offset + Math.floor(i / entries * parseInt("EFFFFF", 16))).toString(16).toUpperCase()
+			let id = (offset + Math.floor(i / entries * parseInt("FFFFFF", 16))).toString(16).toUpperCase()
 			idMap[name] = ("000000" + id).slice(-6);
 		}
 	
@@ -71,12 +77,19 @@
 
 	function submit() {
 		let names = document.getElementById("names").value.split("\n");
-		let idMap = getIDMap(names);
-		let text = "";
-		for (let i = 0; i < idMap.length; i++) {
-			text = text.concat(idMap[i][0], ": ", idMap[i][1], "<br>");
+		if (names != "") {
+			let sheets = document.getElementById("sheets").checked;
+			let idMap = getIDMap(names);
+			let text = "";
+			for (let i = 0; i < idMap.length; i++) {
+				if (sheets) {
+					text = text.concat(idMap[i][0], ",'", idMap[i][1], "<br>");
+				} else {
+					text = text.concat(idMap[i][0], ",", idMap[i][1], "<br>");
+				}
+			}
+			document.getElementById("result").innerHTML = text;
 		}
-		document.getElementById("result").innerHTML = text;
 	}
 	</script>
 </body>
