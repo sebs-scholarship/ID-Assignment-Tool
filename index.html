@@ -53,7 +53,7 @@
 			generated independently of any personally identifying information. The algorithm 
 			chooses random names from the list of names provided. Based on the order that names 
 			were selected, we assign ID's that are uniformly distributed and unique for inputs 
-			with less than 15 million names. Because the names are randomly chosen, this 
+			with 2,176,782,336 names or less. Because the names are randomly chosen, this 
 			process is not replicable, and therefore cannot be used to determine which IDs 
 			were assigned, or to whom.
 			</p>
@@ -62,13 +62,13 @@
 	function getIDMap(names) {
 		let idMap = {};
 		let entries = names.length;
-		let offset = Math.floor(Math.random() * (1 / entries * parseInt("FFFFFF", 16)));
+		let offset = Math.floor(Math.random() * (1 / entries * parseInt("ZZZZZZ", 36)));
 	
 		for (let i = 0; i < entries; i++) {
 			let pos = Math.floor(Math.random() * names.length);
 			let name = names[pos];
 			names.splice(pos, 1);
-			let id = (offset + Math.floor(i / entries * parseInt("FFFFFF", 16))).toString(16).toUpperCase()
+			let id = (offset + Math.floor(i / entries * parseInt("ZZZZZZ", 36))).toString(36).toUpperCase()
 			idMap[name] = ("000000" + id).slice(-6);
 		}
 	
