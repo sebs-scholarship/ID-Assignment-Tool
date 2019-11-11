@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 <head>
 	<title>SSF ID Assignment Tool</title>
 	<style>
@@ -53,44 +53,70 @@
 			generated independently of any personally identifying information. The algorithm 
 			chooses random names from the list of names provided. Based on the order that names 
 			were selected, we assign ID's that are uniformly distributed and unique for inputs 
-			with 2,176,782,336 names or less. Because the names are randomly chosen, this 
+			with 729,000,000 names or less. Because the names are randomly chosen, this
 			process is not replicable, and therefore cannot be used to determine which IDs 
 			were assigned, or to whom.
 			</p>
 		</div>
 	<script>
-	function getIDMap(names) {
-		let idMap = {};
-		let entries = names.length;
-		let offset = Math.floor(Math.random() * (1 / entries * parseInt("ZZZZZZ", 36)));
-	
-		for (let i = 0; i < entries; i++) {
-			let pos = Math.floor(Math.random() * names.length);
-			let name = names[pos];
-			names.splice(pos, 1);
-			let id = (offset + Math.floor(i / entries * parseInt("ZZZZZZ", 36))).toString(36).toUpperCase()
-			idMap[name] = ("000000" + id).slice(-6);
-		}
-	
-		return Object.entries(idMap);
-	}
+		let charMap = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "B", "C", "D", "F", "G", "H", "J", "K", "L",
+						"M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Z"];
+		let base = 30;
+		let characters = 6;
+		let maxID = Math.pow(base, characters);
 
-	function submit() {
-		let names = document.getElementById("names").value.split("\n");
-		if (names != "") {
-			let sheets = document.getElementById("sheets").checked;
-			let idMap = getIDMap(names);
-			let text = "";
-			for (let i = 0; i < idMap.length; i++) {
-				if (sheets) {
-					text = text.concat(idMap[i][0], ",'", idMap[i][1], "<br>");
+		function toIDString(num) {
+			let idString = "";
+			let maxPow = Math.floor(Math.log(num) / Math.log(charMap.length));
+
+			for (let i = maxPow; i >= 0; i--) {
+				let pow = Math.pow(base, i);
+				let index = Math.floor(num / pow);
+				idString += charMap[index];
+				num %= pow;
+			}
+
+			return ("0".repeat(characters) + idString).slice(-characters);
+		}
+
+		function getIDMap(names) {
+			let idMap = {};
+			let entries = names.length;
+			let idOffset = maxID / entries;
+			let initialOffset = Math.floor(Math.random() * idOffset);
+
+			for (let i = 0; i < entries; i++) {
+				let pos = Math.floor(Math.random() * names.length);
+				let name = names[pos];
+				names.splice(pos, 1);
+				let id = initialOffset + Math.floor(i * idOffset);
+				idMap[name] = toIDString(id);
+			}
+
+			return Object.entries(idMap);
+		}
+
+		function submit() {
+			let namesRaw = document.getElementById("names").value.trim();
+			if (namesRaw !== "") {
+				let namesList = namesRaw.split("\n");
+				if (namesList.length <= maxID) {
+					let sheets = document.getElementById("sheets").checked;
+					let idMap = getIDMap(namesList);
+					let text = "";
+					for (let i = 0; i < idMap.length; i++) {
+						if (sheets) {
+							text = text.concat(idMap[i][0], ",'", idMap[i][1], "<br>");
+						} else {
+							text = text.concat(idMap[i][0], ",", idMap[i][1], "<br>");
+						}
+					}
+					document.getElementById("result").innerHTML = text;
 				} else {
-					text = text.concat(idMap[i][0], ",", idMap[i][1], "<br>");
+					alert("Please enter less than " + maxID + " names!")
 				}
 			}
-			document.getElementById("result").innerHTML = text;
 		}
-	}
 	</script>
 </body>
 </html>
