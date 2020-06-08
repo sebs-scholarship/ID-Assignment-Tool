@@ -73,8 +73,9 @@
 	<script>
 		let charMap = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "B", "C", "D", "F", "G", "H", "J", "K", "L",
 						"M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Z"];
-		let base = charMap.length;
 		let length = 5;
+		let base = charMap.length;
+		let padding = "0".repeat(length);
 		let maxID = Math.pow(base, length);
 
 		function toIDString(num) {
@@ -89,7 +90,7 @@
 				num %= pow;
 			}
 
-			return ("0".repeat(length) + idString).slice(-length);
+			return (padding + idString).slice(-length);
 		}
 
 		function getIDs(names, element, sheets) {
