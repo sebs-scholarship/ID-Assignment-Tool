@@ -1,147 +1,148 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>SSF ID Assignment Tool</title>
-	<style>
-		body {
-			font-family: "Montserrat", Arial, sans-serif;
-			text-align: center;
-		}
-		button {
-			display: block;
-			margin: 1rem auto;
-			background-color: #800000;
-			color: white;
-			border: none;
-			font-size: 1.2em;
-			padding: 15px 32px;
-		}
-		div {
-			display: inline-block;
-			text-align:center;
-			width: 50%;
-		}
-		textarea {
-			border: 1px solid #5D6369;
-			border-radius: 5px;
-			width: 100%;
-			max-width: 400px;
-		}
-		p {
-			color: #5D6369;
-		}
-		input {
-			display: inline-block;
-			vertical-align: middle;
-			margin: 1rem auto;
-		}
-		a {
-			color: #800000;
-		}
-	</style>
+    <title>SSF ID Assignment Tool</title>
+    <style>
+      body {
+        font-family: "Montserrat", Arial, sans-serif;
+        text-align: center;
+      }
+      button {
+        display: block;
+        margin: 1rem auto;
+        background-color: #800000;
+        color: white;
+        border: none;
+        font-size: 1.2em;
+        padding: 15px 32px;
+      }
+      div {
+        display: inline-block;
+        text-align:center;
+        width: 50%;
+      }
+      textarea {
+        border: 1px solid #5D6369;
+        border-radius: 5px;
+        width: 100%;
+        max-width: 400px;
+      }
+      p {
+        color: #5D6369;
+      }
+      input {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 1rem auto;
+      }
+      a {
+        color: #800000;
+      }
+    </style>
 </head>
 <body>
-	<div>
-		<h1>SSF ID Assignment Tool</h1>
-		<p>Please enter each applicant's name on a separate line.</p>
-		<textarea id=names rows=25 cols=50></textarea><br>
-		<input type=checkbox id=sheets>Optimize for Google Sheets
-		<button onClick="submit()">Generate</button>
-		<div id="results">
-			<h2>Results</h2>
-			<p id="text">Results will appear here...</p>
-		</div>
-		<h2>About</h2>
-		<p>
-			The SSF ID Assignment Tool was created to assist the SEBS Scholarship Foundation in assigning unique
-			identifiers to scholarship applicants. We do this to ensure that applicants are given a fair and
-			unbiased chance at receiving a scholarship.
-		</p>
-		<h2>How It Works</h2>
-		<p>
-		In order to keep our applicant's identities safe and our application process unbiased,
-		we remove all Personally Identifying Information from each application and instead use
-		an ID to refer to the application and recipient. This is done before any judges receive
-		access to the applications, and judges do not have access to the ID mappings.
-		</p>
-		<p>Each ID is 5 characters 0-Z excluding vowels. Example: <b>9X5NK</b></p>
-		<p>	
-		We calculate each ID at a uniform offset based on the number of names provided
-		(e.g. 5, 10, 15, ...). In order to prevent which IDs were assigned from being
-		determined, and to make the IDs visually diverse, we also add a randomized
-		offset between each ID. Because each unique ID is assigned to a name selected
-		in a random order, this process is not replicable with less than 24,300,000 
-		names, and therefore it cannot be determined which IDs were assigned to whom.
-		</p>
-		<p><b>Source Code: <br></b><a href="https://github.com/sebs-scholarship/SSF-ID-Assignment-Tool" target="_blank" rel="noopener">https://github.com/sebs-scholarship/SSF-ID-Assignment-Tool</a></p>
-	</div>
-	<script>
-		let charMap = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "B", "C", "D", "F", "G", "H", "J", "K", "L",
-						"M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Z"];
-		let length = 5;
-		let base = charMap.length;
-		let padding = "0".repeat(length);
-		let maxID = Math.pow(base, length);
+<div>
+    <h1>SSF ID Assignment Tool</h1>
+    <p>Please enter each applicant's name on a separate line.</p>
+    <textarea id="names" rows="25" cols="50"></textarea><br>
+    <input type="checkbox" id="sheets">Optimize for Google Sheets
+    <button onclick="submit()">Generate</button>
+    <div id="results">
+        <h2>Results</h2>
+        <p id="text">Results will appear here...</p>
+    </div>
+    <h2>About</h2>
+    <p>
+        The SSF ID Assignment Tool was created to assist the SEBS Scholarship Foundation in assigning unique
+        identifiers to scholarship applicants. We do this to ensure that applicants are given a fair and
+        unbiased chance at receiving a scholarship.
+    </p>
+    <h2>How It Works</h2>
+    <p>
+        In order to keep our applicant's identities safe and our application process unbiased,
+        we remove all Personally Identifying Information from each application and instead use
+        an ID to refer to the application and recipient. This is done before any judges receive
+        access to the applications, and judges do not have access to the ID mappings.
+    </p>
+    <p>Each ID is 5 characters 0-Z excluding vowels. Example: <b>9X5NK</b></p>
+    <p>
+        We calculate each ID at a uniform offset based on the number of names provided
+        (e.g. 5, 10, 15, ...). In order to prevent which IDs were assigned from being
+        determined, and to make the IDs visually diverse, we also add a randomized
+        offset between each ID. Because each unique ID is assigned to a name selected
+        in a random order, this process is not replicable with less than 24,300,000
+        names, and therefore it cannot be determined which IDs were assigned to whom.
+    </p>
+    <p><b>Source Code: <br></b><a href="https://github.com/sebs-scholarship/SSF-ID-Assignment-Tool" target="_blank" rel="noopener">https://github.com/sebs-scholarship/SSF-ID-Assignment-Tool</a></p>
+</div>
+<script>
+    let charMap = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "B", "C", "D", "F", "G", "H", "J", "K", "L",
+        "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Z"];
+    let length = 5;
+    let base = charMap.length;
+    let padding = "0".repeat(length);
+    let maxID = Math.pow(base, length);
 
-		function toIDString(num) {
-			let idString = "";
-			let maxPow = Math.floor(Math.log(num) / Math.log(charMap.length));
+    function toIDString(num) {
+        let idString = "";
+        let maxPow = Math.floor(Math.log(num) / Math.log(charMap.length));
 
-			// O(l) where l is the length of the ID
-			for (let i = maxPow; i >= 0; i--) {
-				let pow = Math.pow(base, i);
-				let index = Math.floor(num / pow);
-				idString += charMap[index];
-				num %= pow;
-			}
+        // O(l) where l is the length of the ID
+        for (let i = maxPow; i >= 0; i--) {
+            let pow = Math.pow(base, i);
+            let index = Math.floor(num / pow);
+            idString += charMap[index];
+            num %= pow;
+        }
 
-			return (padding + idString).slice(-length);
-		}
+        return (padding + idString).slice(-length);
+    }
 
-		function getIDs(names, element, sheets) {
-			let end = names.length;					// Location of last index
-			let interval = maxID / end; 			// The amount between each number
-			let avgOffset = maxID / (end * end);	// The average amount to be offset
-			let underflow = 0;						// The amount less than avgOffset that has accumulated
-			let separator = ",";
-			if (sheets) separator += "'";
+    function getIDs(names, element, sheets) {
+        let end = names.length;					// Location of last index
+        let interval = maxID / end; 			// The amount between each number
+        let avgOffset = maxID / (end * end);	// The average amount to be offset
+        let underflow = 0;						// The amount less than avgOffset that has accumulated
+        let separator = ",";
+        if (sheets) separator += "'";
 
-			// O(n * l) where n is the number of names and l is the length of the ID
-			for (let i = 0; i < names.length; i++) {
-				let pos = Math.floor(Math.random() * end);
-				let name = names[pos];
+        // O(n * l) where n is the number of names and l is the length of the ID
+        for (let i = 0; i < names.length; i++) {
+            let pos = Math.floor(Math.random() * end);
+            let name = names[pos];
 
-				// Instead of removing items, update end location and swap to end
-				end -= 1;
-				let temp = names[pos];
-				names[pos] = names[end];
-				names[end] = temp;
+            // Instead of removing items, update end location and swap to end
+            end -= 1;
+            let temp = names[pos];
+            names[pos] = names[end];
+            names[end] = temp;
 
-				let max = avgOffset + underflow;	// Highest possible offset
-				let offset = Math.random() * max;	// Randomly generated offset
-				underflow += avgOffset - offset;	// Accumulate underflow
-				let id = Math.floor(i * interval + offset);
+            let max = avgOffset + underflow;	// Highest possible offset
+            let offset = Math.random() * max;	// Randomly generated offset
+            underflow += avgOffset - offset;	// Accumulate underflow
+            let id = Math.floor(i * interval + offset);
 
-				let child = document.createElement("P");
-				child.innerText = name + separator + toIDString(id);
-				element.appendChild(child);
-			}
-		}
+            let child = document.createElement("P");
+            child.innerText = name + separator + toIDString(id);
+            element.appendChild(child);
+        }
+    }
 
-		function submit() {
-			let namesRaw = document.getElementById("names").value.trim();
-			let results = document.getElementById("results");
-			if (namesRaw !== "") {
-				results.textContent = ''
+    function submit() {
+        let namesRaw = document.getElementById("names").value.trim();
+        let results = document.getElementById("results");
+        if (namesRaw !== "") {
+            results.textContent = ''
 
-				let namesList = namesRaw.split("\n");
-				if (namesList.length <= maxID) {
-					let sheets = document.getElementById("sheets").checked;
-					getIDs(namesList, results, sheets);
-				} else {
-					alert("Please enter less than " + maxID + " names!")
-				}
-			}
-		}
-	</script>
+            let namesList = namesRaw.split("\n");
+            if (namesList.length <= maxID) {
+                let sheets = document.getElementById("sheets").checked;
+                getIDs(namesList, results, sheets);
+            } else {
+                alert("Please enter less than " + maxID + " names!")
+            }
+        }
+    }
+</script>
 </body>
 </html>
