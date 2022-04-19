@@ -43,13 +43,12 @@
 <body>
 <div>
     <h1>SSF ID Assignment Tool</h1>
-    <p>Please enter each applicant's name on a separate line.</p>
-    <textarea id="names" rows="25" cols="50"></textarea><br>
-    <input type="checkbox" id="sheets">Optimize for Google Sheets
+    <p>Please enter the number of IDs to generate.</p>
+    <input type="number" id="count"><br>
     <button onclick="submit()">Generate</button>
-    <div id="results">
+    <div>
         <h2>Results</h2>
-        <p id="text">Results will appear here...</p>
+        <textarea id="results" rows="25" cols="50" readonly></textarea>
     </div>
     <h2>About</h2>
     <p>
@@ -98,49 +97,60 @@
         return (padding + idString).slice(-length);
     }
 
-    function getIDs(names, element, sheets) {
-        let end = names.length;					// Location of last index
-        let interval = maxID / end; 			// The amount between each number
-        let avgOffset = maxID / (end * end);	// The average amount to be offset
-        let underflow = 0;						// The amount less than avgOffset that has accumulated
-        let separator = ",";
-        if (sheets) separator += "'";
+    function getIDs(count) {
+        let interval = maxID / count; 			    // The amount between each number
+        let avgOffset = maxID / (count * count);	// The average amount to be offset
+        let underflow = 0;  						// The amount less than avgOffset that has accumulated
+        let ids = [];
 
-        // O(n * l) where n is the number of names and l is the length of the ID
-        for (let i = 0; i < names.length; i++) {
-            let pos = Math.floor(Math.random() * end);
-            let name = names[pos];
-
-            // Instead of removing items, update end location and swap to end
-            end -= 1;
-            let temp = names[pos];
-            names[pos] = names[end];
-            names[end] = temp;
-
+        for (let i = 0; i < count; i++) {
             let max = avgOffset + underflow;	// Highest possible offset
             let offset = Math.random() * max;	// Randomly generated offset
             underflow += avgOffset - offset;	// Accumulate underflow
             let id = Math.floor(i * interval + offset);
-
-            let child = document.createElement("P");
-            child.innerText = name + separator + toIDString(id);
-            element.appendChild(child);
+            ids.push(id);
         }
+
+        return ids;
+    }
+
+    function shuffle(array) {
+        let m = array.length, t, i;
+
+        while (m) {
+            i = Math.floor(Math.random() * m--);
+
+            t = array[m];
+            array[m] = array[i];
+            array[i] = t;
+        }
+
+        return array;
     }
 
     function submit() {
-        let namesRaw = document.getElementById("names").value.trim();
-        let results = document.getElementById("results");
-        if (namesRaw !== "") {
-            results.textContent = ''
+        let count = document.getElementById("count").value;
+        if (Number.isNaN(count)) {
+            alert("Please enter a number only!");
+            return;
+        }
 
-            let namesList = namesRaw.split("\n");
-            if (namesList.length <= maxID) {
-                let sheets = document.getElementById("sheets").checked;
-                getIDs(namesList, results, sheets);
-            } else {
-                alert("Please enter less than " + maxID + " names!")
-            }
+        count = parseInt(count);
+        if (count <= 0) {
+            alert("Please enter a number greater than one!");
+            return;
+        }
+
+        let results = document.getElementById("results");
+        results.value = '';
+        if (count <= maxID) {
+            shuffle(getIDs(count)).forEach(
+                id => {
+                    results.value += toIDString(id) + '\n';
+                }
+            );
+        } else {
+            alert("Please enter less than " + maxID + " ids!");
         }
     }
 </script>
