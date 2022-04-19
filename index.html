@@ -129,7 +129,11 @@
     }
 
     function submit() {
-        let count = document.getElementById("count").value;
+        let count = parseInt(document.getElementById("count").value);
+
+        if (isNaN(count)) {
+            count = 0;
+        }
 
         if (count <= 0) {
             alert("Please enter a number greater than zero!");
