@@ -130,12 +130,7 @@
 
     function submit() {
         let count = document.getElementById("count").value;
-        if (Number.isNaN(count)) {
-            alert("Please enter a number only!");
-            return;
-        }
 
-        count = parseInt(count);
         if (count <= 0) {
             alert("Please enter a number greater than zero!");
             return;
