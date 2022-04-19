@@ -44,7 +44,7 @@
 <div>
     <h1>SSF ID Assignment Tool</h1>
     <p>Please enter the number of IDs to generate.</p>
-    <input type="number" id="count"><br>
+    <input type="number" id="count" min="1" oninput="validity.valid || (value='')"><br>
     <button onclick="submit()">Generate</button>
     <div>
         <h2>Results</h2>
@@ -80,6 +80,7 @@
     let base = charMap.length;
     let padding = "0".repeat(length);
     let maxID = Math.pow(base, length);
+    document.getElementById("count").max = maxID - 1;
 
     function toIDString(num) {
         let idString = "";
