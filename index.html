@@ -60,17 +60,16 @@
     <p>
         In order to keep our applicant's identities safe and our application process unbiased,
         we remove all Personally Identifying Information from each application and instead use
-        an ID to refer to the application and recipient. This is done before any judges receive
-        access to the applications, and judges do not have access to the ID mappings.
+        an ID to refer to the application and recipient. This is done before reviewers receive
+        access to the applications, and reviewers do not have access to the ID mappings.
     </p>
-    <p>Each ID is 5 characters 0-Z excluding vowels. Example: <b>9X5NK</b></p>
+    <p>Each ID is 5 characters [0-9, A-Z] excluding vowels. Example: <b>9X5NK</b></p>
     <p>
         We calculate each ID at a uniform offset based on the number of names provided
-        (e.g. 5, 10, 15, ...). In order to prevent which IDs were assigned from being
-        determined, and to make the IDs visually diverse, we also add a randomized
-        offset between each ID. Because each unique ID is assigned to a name selected
-        in a random order, this process is not replicable with less than 24,300,000
-        names, and therefore it cannot be determined which IDs were assigned to whom.
+        (e.g. 5, 10, 15, ...). We then shift IDs by a random amount in order to produce
+        a unique set of IDs each run (e.g. 3, 8, 13, 18, ...). Randomized offsets can be
+        generated for sets of less than 24,300,000 IDs. The generated IDs are then shuffled
+        randomly to prevent IDs from correlating to application submission time.
     </p>
     <p><b>Source Code: <br></b><a href="https://github.com/sebs-scholarship/ID-Assignment-Tool" target="_blank" rel="noopener">https://github.com/sebs-scholarship/ID-Assignment-Tool</a></p>
 </div>
@@ -137,7 +136,7 @@
 
         count = parseInt(count);
         if (count <= 0) {
-            alert("Please enter a number greater than one!");
+            alert("Please enter a number greater than zero!");
             return;
         }
 
